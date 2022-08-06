@@ -20,6 +20,7 @@ print(title.text)
 # либо string
 print(title.string)
 
+
 # [*] Методы .find и .find_all()
 # работают на странице сверху вниз
 # для демонстрации работы методов добавим в html еще одид заголовок h1
@@ -71,6 +72,7 @@ for item in social_links:
     item_url = item.get("href")
     print(f"{item_text}: {item_url}")
 
+
 # [*] Методы .find_parent() и .find_parents()
 # ищут родителя или родителей элементов, т.е. поднимаются по структуре html дерева снизу вверх их действия аналогичны
 # действию find и find_all с поправкой, что используем мы их, когда необходимо поднгиматься вверх, а не опускаться
@@ -90,6 +92,7 @@ post_divs = soup.find(class_="post__text").find_parents()
 # ему можно также ставить ограничения или фильтры на поиск пример post_divs = soup.find(class_="post__text").find_parents()
 print(post_divs)
 
+
 # [*] Методы .next_element и previous_element
 # .next_element двигается пошагово и возвращает следующий элемент в коде, например нам нужно получить название статьи
 # обращаемся к диву с классом post__title, так как следующим элементом является перенос строки,
@@ -104,3 +107,19 @@ print(next_el)
 # метод previous_element является противоположность и двигается снизу вверх
 
 
+# [*] Методы .find_next_sibling() и find_previous_sibling()
+# они ищут и возвращают следующий и предыдущий элементы внутри искомого тега
+# применим .find_next_sibling() к post__title и мы соответ. получим следующий блок кода с текстом статьи
+next_sib = soup.find(class_="post__title").find_next_sibling()
+print(next_sib)
+
+# чтобы получить предыдущий, для начала создадим блок, например с датой создания статьи, а позже применим find_previous_sibling()
+prev_sib = soup.find(class_="post__date").find_previous_sibling()
+print(prev_sib)
+
+# можно комбинировать все методы между собой, например получив блок post_title
+post_title = soup.find(class_="post__date").find_previous_sibling().find_next().text
+print(post_title)
+
+# Комбинация методов дает нам неограниченные возможности парсинга и перемещения внутри html кода все методы имеют и
+# множественное число, отличаются они тем, что получаем мы либо один объект, либо множество объектов в списке
