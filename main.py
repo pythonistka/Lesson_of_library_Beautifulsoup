@@ -90,4 +90,17 @@ post_divs = soup.find(class_="post__text").find_parents()
 # ему можно также ставить ограничения или фильтры на поиск пример post_divs = soup.find(class_="post__text").find_parents()
 print(post_divs)
 
+# [*] Методы .next_element и previous_element
+# .next_element двигается пошагово и возвращает следующий элемент в коде, например нам нужно получить название статьи
+# обращаемся к диву с классом post__title, так как следующим элементом является перенос строки,
+# прописав next_element, мы получим в результате пустой перенос и для того, чтобы получить информацию которая нам
+# необходима в теге h3, нам нужно прописать next_element повторно друг за другом два раза
+next_el = soup.find(class_="post__title").next_element.next_element.text
+print(next_el)
+
+# существует подобный метод find_next
+next_el = soup.find(class_="post__title").find_next().text
+print(next_el)
+# метод previous_element является противоположность и двигается снизу вверх
+
 
