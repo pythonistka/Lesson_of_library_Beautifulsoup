@@ -70,3 +70,24 @@ for item in social_links:
     item_text = item.text
     item_url = item.get("href")
     print(f"{item_text}: {item_url}")
+
+# [*] Методы .find_parent() и .find_parents()
+# ищут родителя или родителей элементов, т.е. поднимаются по структуре html дерева снизу вверх их действия аналогичны
+# действию find и find_all с поправкой, что используем мы их, когда необходимо поднгиматься вверх, а не опускаться
+# вглубь кода
+# Возьмем за отправную точку div с классом post__text
+post_div = soup.find(class_="post__text").find_parent()
+# здесь мы забираем блок не целиком, а до первого родителя, которым является div c классом user__post__info
+print(post_div)
+
+# в метод .find_parent() мы также можем передавать параметры поиска, если не укажем ничего, то получим первого
+# попавшегося родителя, если укажем второго родителя (того, кто по иерархии указан выше), то получим соответственно его
+post_div = soup.find(class_="post__text").find_parent("div", "user__post")
+print(post_div)
+
+# метод .find_parents отрабатывает так, что поднимается по иерархии до самого верха, включая и body и html тег
+post_divs = soup.find(class_="post__text").find_parents()
+# ему можно также ставить ограничения или фильтры на поиск пример post_divs = soup.find(class_="post__text").find_parents()
+print(post_divs)
+
+
