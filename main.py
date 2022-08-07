@@ -1,4 +1,6 @@
 # pip install beautifulsoup4 lxml
+import re
+
 from bs4 import BeautifulSoup
 # открываем файл страницы
 with open("index.html", encoding='utf-8') as file:
@@ -123,3 +125,27 @@ print(post_title)
 
 # Комбинация методов дает нам неограниченные возможности парсинга и перемещения внутри html кода все методы имеют и
 # множественное число, отличаются они тем, что получаем мы либо один объект, либо множество объектов в списке
+
+# Создадим внизу страницы несколько рандомных ссылок для практики
+links = soup.find("div", {"class": "some__links"}).find_all("a")
+print(links)
+
+for link in links:
+    link_href_attr = link.get("href")
+    # парсить атрибуты можно не только используя метод get, но и просто обращаясь к нужному нам атрибуту
+    link_href_attr1 = link["href"]
+
+    link_data_attr = link.get("data-attr")
+    link_data_attr1 = link["data-attr"]
+
+    print(f"link_href_attr =  {link_href_attr}, link_data_attr = {link_data_attr}")
+    print(f"link_href_attr1 =  {link_href_attr1}, link_data_attr1 = {link_data_attr1}")
+
+# Попробуем найти ссылку с текстом одежда, для этого необходимо использовать метод регулярных выражений Re
+find_a_by_text = soup.find("a", text=re.compile("Одежда"))
+print(find_a_by_text)
+
+# Собираем все блоки, в которых содержится слово Одежда(в один из h3 добавили слово одежда, чтоб было что искать)
+#  "([Оо]дежда)" - таким способом, мы показываем, чтобы поиск происходил по буквам и верхнего и нижнего регистра
+find_all_clothes = soup.find_all(text=re.compile("([Оо]дежда)"))
+print(find_all_clothes)
